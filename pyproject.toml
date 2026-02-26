@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "virtual-reality"
+version = "0.1.0"
+description = "Virtual fly stimulus and projector-camera calibration system for neuroscience experiments."
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "fkaempf"},
+]
+dependencies = [
+    "numpy>=1.24",
+    "opencv-python>=4.8",
+    "pygame>=2.5",
+    "PyOpenGL>=3.1",
+    "pygltflib>=1.15",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+alvium = ["harvesters>=1.4"]
+flir = ["rotpy>=0.3"]
+gui = ["imgui[pygame]>=2.0"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+]
+all = ["virtual-reality[alvium,flir,gui,dev]"]
+
+[project.scripts]
+vr-fly3d = "virtual_reality.stimulus.fly_3d:main"
+vr-fly2d = "virtual_reality.stimulus.fly_sprite:main"
+vr-calibrate = "virtual_reality.pipeline.calibration_pipeline:main"
+vr-warp-test = "virtual_reality.stimulus.warp_circle:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "gpu: requires OpenGL context",
+    "hardware: requires physical camera/projector",
+]
+
+[tool.ruff]
+line-length = 80
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
