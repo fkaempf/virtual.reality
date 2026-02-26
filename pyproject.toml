@@ -37,6 +37,7 @@ vr-fly3d = "virtual_reality.stimulus.fly_3d:main"
 vr-fly2d = "virtual_reality.stimulus.fly_sprite:main"
 vr-calibrate = "virtual_reality.pipeline.calibration_pipeline:main"
 vr-warp-test = "virtual_reality.stimulus.warp_circle:main"
+vr-gui = "virtual_reality.gui.app:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
