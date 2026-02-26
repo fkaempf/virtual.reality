@@ -10,6 +10,20 @@ import pytest
 from virtual_reality.config.schema import VirtualRealityConfig
 
 
+def pytest_collection_modifyitems(
+    config: pytest.Config,
+    items: list[pytest.Item],
+) -> None:
+    """Auto-skip tests marked ``gpu`` or ``hardware`` by default."""
+    skip_gpu = pytest.mark.skip(reason="requires OpenGL context")
+    skip_hw = pytest.mark.skip(reason="requires physical hardware")
+    for item in items:
+        if "gpu" in item.keywords:
+            item.add_marker(skip_gpu)
+        if "hardware" in item.keywords:
+            item.add_marker(skip_hw)
+
+
 @pytest.fixture
 def default_config() -> VirtualRealityConfig:
     """Return a VirtualRealityConfig with default values."""
